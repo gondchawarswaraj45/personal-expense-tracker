@@ -1,179 +1,188 @@
-/* =========================
-   GLOBAL / PAGE SETUP
-========================= */
+/* =========================================================
+   GLOBAL RESET & BASE STYLES
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
 
 body {
-    font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 
-    /* Background image EXACTLY as it is */
+    /* Background image */
     background-image: url("../assets/expenses1.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-
-    min-height: 100vh;
 }
 
-/* =========================
+
+/* =========================================================
    NAVBAR
-========================= */
+========================================================= */
 
 .navbar {
-    background-color: rgba(33, 37, 41, 0.95) !important;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .navbar-brand {
-    font-size: 1.3rem;
-    font-weight: 600;
-    letter-spacing: 0.8px;
-}
-
-.nav-link {
-    font-size: 1.05rem;
-}
-
-/* =========================
-   MAIN CONTAINER
-========================= */
-
-main.container {
-    max-width: 1200px;
-}
-
-/* =========================
-   CARDS (KEY PART)
-========================= */
-
-.card {
-    background-color: #ffffff;
-    border: none;
-    border-radius: 16px;
-
-    /* Strong separation from background */
-    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
-
-    margin-bottom: 20px;
-}
-
-.card-header {
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-    font-weight: 600;
+    font-size: 1.25rem;
     letter-spacing: 0.5px;
 }
 
-/* Card header colors */
-.card-header.bg-primary {
-    background-color: #0d6efd !important;
+.nav-link {
+    font-size: 1rem;
+    margin-left: 12px;
 }
 
-.card-header.bg-info {
-    background-color: #0dcaf0 !important;
+.nav-link:hover {
+    color: #0d6efd !important;
 }
 
-.card-header.bg-secondary {
-    background-color: #6c757d !important;
+/* =========================================================
+   MAIN CONTENT AREA
+========================================================= */
+
+main.container {
+    max-width: 1100px;
 }
 
-/* =========================
-   FORM CONTROLS
-========================= */
+/* =========================================================
+   CARD – GENERAL
+========================================================= */
 
-.form-control,
-.form-select {
-    border-radius: 12px;
-    border: 1px solid #ced4da;
-    padding: 12px 14px;
-    background-color: #ffffff;
-}
-
-/* =========================
-   BUTTONS
-========================= */
-
-.btn {
-    border-radius: 12px;
-    font-weight: 500;
-}
-
-.btn-success {
-    background-color: #198754;
+.card {
     border: none;
+    border-radius: 14px;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
 }
 
-.btn-success:hover {
-    background-color: #157347;
+.card-header {
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
 }
 
-/* =========================
-   TABLE
-========================= */
+/* =========================================================
+   ADD / EDIT EXPENSE FORM
+========================================================= */
+
+#home .form-control,
+#home .form-select {
+    height: 48px;
+    border-radius: 10px;
+    font-size: 1rem;
+}
+
+#home .btn-success {
+    height: 52px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: 12px;
+}
+
+/* =========================================================
+   FILTER EXPENSES SECTION
+========================================================= */
+
+#expenses {
+    display: none;
+    /* toggled via JS */
+}
+
+#expenses .form-control,
+#expenses .form-select {
+    height: 46px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+}
+
+#expenses span.fw-semibold {
+    min-width: 40px;
+}
+
+/* Filter buttons */
+#expenses .btn-success {
+    font-weight: 600;
+    border-radius: 10px;
+}
+
+#expenses .btn-secondary {
+    border-radius: 10px;
+}
+
+/* =========================================================
+   EXPENSE TABLE
+========================================================= */
 
 .table {
     margin-bottom: 0;
-    background-color: #ffffff;
 }
 
 .table thead th {
     background-color: #f1f3f5;
     font-weight: 600;
+    border-bottom: none;
+    text-align: center;
+}
+
+.table tbody td {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.95rem;
 }
 
 .table tbody tr:hover {
     background-color: #f8f9fa;
 }
 
-.table td,
-.table th {
-    vertical-align: middle;
-    white-space: nowrap;
+/* Action buttons inside table */
+.table .btn {
+    padding: 4px 10px;
+    font-size: 0.85rem;
+    border-radius: 8px;
 }
 
-/* =========================
+/* =========================================================
    TOTAL AMOUNT
-========================= */
+========================================================= */
 
 #totalAmount {
     font-weight: 700;
-    font-size: 1.4rem;
     color: #198754;
+    font-size: 1.4rem;
 }
 
-/* =========================
-   FOOTER
-========================= */
+/* =========================================================
+   FOOTER (STICKY BOTTOM)
+========================================================= */
 
 .footer {
-    background-color: rgba(33, 37, 41, 0.95);
-    color: #ffffff;
+    margin-top: auto;
     font-size: 0.95rem;
-    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.3px;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.25);
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (max-width: 768px) {
-    .navbar-brand {
-        font-size: 1.1rem;
-    }
-
-    #totalAmount {
-        font-size: 1.2rem;
-    }
-}
-
-
-/* =========================
-   MODERN VALIDATION MODAL
-========================= */
+/* =========================================================
+   MODALS (VALIDATION + DELETE)
+========================================================= */
 
 .modal-content {
     border-radius: 14px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 18px 55px rgba(0, 0, 0, 0.45);
 }
 
 .modal-header {
@@ -183,4 +192,50 @@ main.container {
 
 .modal-footer {
     border-top: none;
+}
+
+/* =========================================================
+   BUTTON REFINEMENTS
+========================================================= */
+
+.btn {
+    transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+/* =========================================================
+   RESPONSIVE ADJUSTMENTS
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+
+    .nav-link {
+        margin-left: 0;
+        padding: 8px 0;
+    }
+
+    #home .btn-success {
+        font-size: 1rem;
+    }
+
+    #totalAmount {
+        font-size: 1.2rem;
+    }
+
+    footer {
+        font-size: 0.9rem;
+    }
+}
+
+
+#recentExpenses table th,
+#recentExpenses table td {
+    font-size: 0.9rem;
 }
