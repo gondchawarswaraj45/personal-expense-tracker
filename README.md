@@ -30,20 +30,20 @@ The application allows users to record, edit, filter, and manage daily expenses 
 
 ---
 
+
 ## 🔹 Project Structure
 
-
+```text
 personal-expense-tracker/
-│
 ├── index.html
 ├── css/
-│ └── style.css
+│   └── style.css
 ├── js/
-│ └── script.js
+│   └── script.js
 ├── assets/
-│ └── expenses1.jpg
+│   └── expenses1.jpg
 ├── data/
-│ └── sample-expenses.json
+│   └── sample-expenses.json
 └── README.md
 
 
@@ -68,3 +68,4 @@ personal-expense-tracker/
 
 Swaraj Gondchawar
 Built as a Web Development project using HTML, CSS, JavaScript, and Bootstrap.
+
