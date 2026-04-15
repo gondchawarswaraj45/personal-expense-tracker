@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Xpense – Smart Expense Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar sticky-top py-3">
+        <div class="container">
+            <!-- Brand -->
+            <a class="navbar-brand" href="#" onclick="showHome()">
+                <i data-lucide="wallet"></i>
+                <span>Xpense</span>
+            </a>
+
+            <!-- Menu & Tools -->
+            <div class="d-flex align-items-center gap-3">
+                <div class="collapse navbar-collapse d-none d-lg-block" id="mainNavbar">
+                    <ul class="navbar-nav ms-auto flex-row">
+                        <li class="nav-item mx-2">
+                            <a class="nav-link active" id="nav-home" href="#" onclick="showHome()">Dashboard</a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a class="nav-link" id="nav-expenses" href="#" onclick="showExpenses()">Expenses</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Theme Toggle -->
+                <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme">
+                    <i data-lucide="sun" id="theme-icon-sun"></i>
+                    <i data-lucide="moon" id="theme-icon-moon" class="d-none"></i>
+                </div>
+
+                <!-- Mobile Toggle -->
+                <button class="btn d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#mobileMenu">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="collapse d-lg-none w-100" id="mobileMenu">
+            <div class="container py-3">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"
+                            onclick="showHome(); bootstrap.Collapse.getInstance(document.getElementById('mobileMenu')).hide();">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"
+                            onclick="showExpenses(); bootstrap.Collapse.getInstance(document.getElementById('mobileMenu')).hide();">Expenses</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="container my-5 flex-grow-1 animate-fade-in">
+
+        <!-- DASHBOARD SECTION (HOME) -->
+        <section id="home">
+            <!-- Summary Stats -->
+            <div class="row g-4 mb-5">
+                <div class="col-md-4">
+                    <div class="card stat-card glass-panel h-100">
+                        <div class="card-body">
+                            <div class="stat-icon bg-primary text-white">
+                                <i data-lucide="credit-card"></i>
+                            </div>
+                            <div class="text-muted small fw-medium">Total Balance</div>
+                            <div class="stat-value">₹<span id="balanceAmount">25,000</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card stat-card glass-panel h-100">
+                        <div class="card-body">
+                            <div class="stat-icon bg-success text-white">
+                                <i data-lucide="trending-up"></i>
+                            </div>
+                            <div class="text-muted small fw-medium">Monthly Income</div>
+                            <div class="stat-value">₹<span id="incomeAmount">30,000</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card stat-card glass-panel h-100">
+                        <div class="card-body">
+                            <div class="stat-icon bg-danger text-white">
+                                <i data-lucide="trending-down"></i>
+                            </div>
+                            <div class="text-muted small fw-medium">Monthly Expenses</div>
+                            <div class="stat-value">₹<span id="homeTotalAmount">5,000</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 mb-5">
+                <!-- Add Expense Card -->
+                <div class="col-lg-5">
+                    <div class="card glass-panel shadow-sm border-0 h-100">
+                        <div class="card-header d-flex align-items-center gap-2">
+                            <i data-lucide="plus-circle" class="text-primary"></i>
+                            <span>Quick Add</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold">Amount (₹)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent border-end-0">₹</span>
+                                    <input type="number" id="amount" class="form-control border-start-0"
+                                        placeholder="0.00">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold">Category</label>
+                                <select id="category" class="form-select">
+                                    <option value="" selected disabled>Select Category</option>
+                                    <option>Food & Dining</option>
+                                    <option>Transport</option>
+                                    <option>Shopping</option>
+                                    <option>Entertainment</option>
+                                    <option>Bills & Utilities</option>
+                                    <option>Health</option>
+                                    <option>Travel</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold">Date</label>
+                                    <input type="date" id="date" class="form-control">
+                                </div>
+                                <div class="col-md-6 d-flex flex-column justify-content-end">
+                                    <div class="form-check form-switch mb-2">
+                                        <input class="form-check-input" type="checkbox" id="isBill" onchange="toggleBillDateLabel()">
+                                        <label class="form-check-label small fw-semibold" for="isBill" id="billLabel">Mark as Pending Bill</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold">Description</label>
+                                <textarea id="description" class="form-control" rows="2"
+                                    placeholder="What was this for?"></textarea>
+                            </div>
+                            <button class="btn btn-primary w-100 mt-2" id="submitBtn" onclick="handleSubmit()">
+                                Add Expense
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualization Card -->
+                <div class="col-lg-7">
+                    <div class="card glass-panel shadow-sm border-0 h-100">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-2">
+                                <i data-lucide="pie-chart" class="text-primary"></i>
+                                <span>Spending Analytics</span>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                            <div style="width: 100%; max-width: 300px; position: relative;">
+                                <canvas id="expenseChart"></canvas>
+                                <div id="noDataMessage" class="d-none text-center py-5">
+                                    <i data-lucide="info" class="text-muted mb-2" size="40"></i>
+                                    <p class="text-muted">No data available to display chart</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Bills Reminder -->
+            <div id="billReminderSection" class="mb-5 d-none">
+                <div class="alert glass-panel border-warning bg-warning-subtle d-flex align-items-center gap-3 p-3">
+                    <div class="bg-warning text-white rounded-circle p-2 d-flex align-items-center justify-content-center">
+                        <i data-lucide="bell-ring" size="20"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0 fw-bold text-warning-emphasis">Upcoming Bills Due!</h6>
+                        <small class="text-muted" id="billReminderText">You have 2 bills pending for this week.</small>
+                    </div>
+                    <button class="btn btn-sm btn-warning fw-bold px-3 rounded-pill" onclick="showExpenses('pending')">Pay Now</button>
+                </div>
+            </div>
+
+            <!-- Recent Expenses -->
+            <div class="card glass-panel shadow-sm border-0" id="recentExpensesCard">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-2">
+                        <i data-lucide="clock" class="text-primary"></i>
+                        <span>Recent Transactions</span>
+                    </div>
+                    <button class="btn btn-sm btn-link text-primary p-0 text-decoration-none"
+                        onclick="showExpenses()">View All</button>
+                </div>
+                <div class="card-body p-0 table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Category</th>
+                                <th class="text-end">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentExpenseTable" class="border-top-0">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPENSES SECTION (HIDDEN BY DEFAULT) -->
+        <section id="expenses" style="display: none;">
+            <!-- Filters & Search -->
+            <div class="card glass-panel shadow-sm border-0 mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-end-0">
+                                    <i data-lucide="search" size="18"></i>
+                                </span>
+                                <input type="text" id="searchTerm" class="form-control border-start-0"
+                                    placeholder="Search description..." oninput="applyFilters()">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select id="filterCategory" class="form-select" onchange="applyFilters()">
+                                <option value="">All Categories</option>
+                                <option>Food & Dining</option>
+                                <option>Transport</option>
+                                <option>Shopping</option>
+                                <option>Entertainment</option>
+                                <option>Bills & Utilities</option>
+                                <option>Health</option>
+                                <option>Travel</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select id="filterSort" class="form-select" onchange="applyFilters()">
+                                <option value="dateDesc">Date (Newest)</option>
+                                <option value="dateAsc">Date (Oldest)</option>
+                                <option value="amountAsc">Amount (Low → High)</option>
+                                <option value="amountDesc">Amount (High → Low)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex gap-2">
+                            <button class="btn btn-outline-secondary w-100" onclick="clearFilters()"
+                                title="Reset Filters">
+                                <i data-lucide="rotate-ccw"></i>
+                            </button>
+                            <button class="btn btn-outline-primary w-100" id="exportBtn" onclick="exportExpenses()"
+                                title="Export CSV">
+                                <i data-lucide="download"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="collapse mt-3" id="dateFilterCollapse">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="small fw-semibold text-muted">From</span>
+                                    <input type="date" id="filterFromDate" class="form-control form-control-sm"
+                                        onchange="applyFilters()">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="small fw-semibold text-muted">To</span>
+                                    <input type="date" id="filterToDate" class="form-control form-control-sm"
+                                        onchange="applyFilters()">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-2">
+                        <button class="btn btn-sm text-muted bg-transparent p-0" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#dateFilterCollapse">
+                            <span class="small">More filters <i data-lucide="chevron-down" size="14"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expense List -->
+            <div class="card glass-panel shadow-sm border-0">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Transaction List</h5>
+                    <div class="fw-bold text-primary fs-5">Total: ₹<span id="totalAmount">0</span></div>
+                </div>
+                <div class="card-body p-0 table-responsive">
+                    <table class="table table-hover mb-0 align-middle">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th class="text-end">Amount</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expenseTable" class="border-top-0">
+                            <!-- Rows injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-4 mt-auto">
+        <div class="container text-center">
+            <span class="text-muted small">© 2025 Xpense – Built with <i data-lucide="heart"
+                    class="text-danger d-inline-block" size="14"></i> by <span class="fw-bold">Swaraj
+                    Gondchawar</span></span>
+        </div>
+    </footer>
+
+
+    <!-- MODALS -->
+
+    <!-- Validation Modal -->
+    <div class="modal fade" id="validationModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-panel border-0">
+                <div class="modal-header bg-danger text-white border-0">
+                    <h5 class="modal-title d-flex align-items-center gap-2">
+                        <i data-lucide="alert-triangle"></i>
+                        Attention
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center p-4">
+                    <p class="fs-5 mb-0">Please fill all required fields before saving.</p>
+                </div>
+                <div class="modal-footer border-0 p-3">
+                    <button class="btn btn-primary w-100" data-bs-dismiss="modal">Got it</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content glass-panel border-0">
+                <div class="modal-body text-center p-4">
+                    <div class="bg-danger-subtle text-danger rounded-circle d-inline-flex p-3 mb-3">
+                        <i data-lucide="trash-2" size="32"></i>
+                    </div>
+                    <h5 class="fw-bold">Delete Entry?</h5>
+                    <p class="text-muted small">This action cannot be undone. Are you sure?</p>
+                </div>
+                <div class="modal-footer border-0 p-3 pt-0">
+                    <button class="btn btn-light w-100 mb-2" data-bs-dismiss="modal">No, Keep it</button>
+                    <button class="btn btn-danger w-100" onclick="confirmDelete()">Yes, Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="js/script.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

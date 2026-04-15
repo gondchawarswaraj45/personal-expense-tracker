@@ -1,0 +1,322 @@
+/* =========================================================
+   MODERN DESIGN SYSTEM (GLASSMORPHISM & PREMIUM UI)
+========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Color Palette - Premium Indigo/Violet */
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --secondary: #64748b;
+    --success: #10b981;
+
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --info: #06b6d4;
+
+    /* Light Mode Tokens */
+    --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --card-border: rgba(255, 255, 255, 0.3);
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --navbar-bg: rgba(255, 255, 255, 0.8);
+    --input-bg: rgba(255, 255, 255, 0.9);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+[data-theme="dark"] {
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --navbar-bg: rgba(15, 23, 42, 0.8);
+    --input-bg: rgba(15, 23, 42, 0.6);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* =========================================================
+   BASE STYLES
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-main);
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    min-height: 100vh;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Glassmorphism Effect */
+.glass-panel {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 1.25rem;
+}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+    background: var(--navbar-bg) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--card-border);
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--primary) !important;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-link {
+    font-weight: 500;
+    color: var(--text-main) !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary) !important;
+}
+
+/* =========================================================
+   STATS CARDS
+========================================================= */
+
+.stat-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+/* =========================================================
+   COMPONENTS
+========================================================= */
+
+.card {
+    border: none;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--card-border);
+    border-radius: 1.25rem;
+    overflow: hidden;
+}
+
+.card-header {
+    background: rgba(99, 102, 241, 0.05);
+    border-bottom: 1px solid var(--card-border);
+    font-weight: 600;
+    padding: 1.25rem;
+}
+
+.form-control,
+.form-select {
+    background: var(--input-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-main);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background: var(--input-bg);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    color: var(--text-main);
+}
+
+.btn-primary {
+    background: var(--primary);
+    border: none;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+/* =========================================================
+   TABLES
+========================================================= */
+
+.table {
+    color: var(--text-main);
+}
+
+.table thead th {
+    background: rgba(99, 102, 241, 0.05);
+    border-bottom: 1px solid var(--card-border);
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    padding: 1rem;
+}
+
+.table tbody td {
+    border-bottom: 1px solid var(--card-border);
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background: rgba(99, 102, 241, 0.02);
+}
+
+.table-warning {
+    background-color: rgba(245, 158, 11, 0.08) !important;
+}
+
+.alert.bg-warning-subtle {
+    background-color: rgba(245, 158, 11, 0.08) !important;
+    border-width: 1.5px;
+}
+
+/* =========================================================
+   ANIMATIONS & UTILS
+========================================================= */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.badge-category {
+    padding: 0.35rem 0.75rem;
+    border-radius: 2rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.x-small {
+    font-size: 0.65rem !important;
+    letter-spacing: 0.5px;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+}
+
+/* Toast System */
+.toast-container {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 9999;
+}
+
+.custom-toast {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--card-border);
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-main);
+    animation: slideIn 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.toast-success i { color: var(--success); }
+.toast-danger i { color: var(--danger); }
+.toast-warning i { color: var(--warning); }
+.toast-primary i { color: var(--primary); }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary);
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: var(--primary);
+    color: white;
+}
